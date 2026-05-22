@@ -10,8 +10,11 @@ It's still not finished, but it's taking shape. I'd be happy if you check it out
 How to run it:
 
 1.Install Docker and Docker Compose
+
 2.Clone the repository
+
 3.Run this command in the terminal: docker-compose up --build
+
 4.Open your browser at: http://localhost:3000
 
 Everything spins up together. No manual setup, no headaches.
