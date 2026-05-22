@@ -1,0 +1,86 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "../lib/generated/prisma"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  otpCodes       otpCode[]
+  accounts       Account[]
+  channels       Channel[]
+  channelMembers ChannelMember[]
+}
+
+model otpCode {
+  id        String   @id @default(uuid())
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  phone      String    @id @default(uuid())
+  firstname  String?
+  lastname   String?
+  image      String?
+  isOnline   Boolean   @default(false)
+  lastSeen   DateTime? @default(now())
+  bio        String?
+  username   String?
+  birthday   String?
+  channel    String?
+  isActive   Boolean   @default(true)
+  isVerified Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sessions Session[]
+}
+
+model Session {
+  id               String   @id @default(uuid())
+  sessionToken     String   @unique
+  deviceIdentifier String
+  isValid          Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  accountId String
+  account   Account @relation(fields: [accountId], references: [phone], onDelete: Cascade)
+}
+
+model Channel {
+  id   String @id @default(uuid())
+  name String
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  channelMembers ChannelMember[]
+}
+
+model ChannelMember {
+  id        String  @unique @default(uuid())
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id])
+
+  role String @default("MEMBER")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
