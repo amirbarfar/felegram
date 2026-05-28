@@ -63,10 +63,10 @@ export default function Account({ isOpen }: AccountProps) {
                 </div>
             )}
             {data.map((item, index) => (
-                <div key={index} onClick={() => switchAccount(item.phone)} className="flex cursor-pointer justify-between items-center hover:bg-zinc-100 dark:hover:bg-zinc-800 px-5 py-1">
-                    <div className="flex justify-center items-center gap-x-4 py-1">
-                        <UserAvatar name={item?.firstname || ''} isActive={item.isActive} size={10} />
-                        <p className="text-lg text-zinc-900 dark:text-zinc-100">{item?.firstname} {item?.lastname}</p>
+                <div key={index} onClick={() => switchAccount(item.phone)} className="flex cursor-pointer justify-between items-center hover:bg-zinc-100 dark:hover:bg-zinc-800 px-4 py-1">
+                    <div className="flex justify-center items-center gap-x-3 py-1">
+                        <UserAvatar name={item?.firstname || ''} image={item.image} isActive={item.isActive} size={8} />
+                        <p className="text-sm text-zinc-900 dark:text-zinc-100">{item?.firstname} {item?.lastname}</p>
                     </div>
                     {!item.isActive && (
                         <div className="w-12 h-6 rounded-xl flex justify-center items-center text-white bg-my-blue">
@@ -76,11 +76,11 @@ export default function Account({ isOpen }: AccountProps) {
                 </div>
             ))
             }
-            <Link href={'/auth/login'} className="w-full flex justify-start p-1 items-center gap-1 gap-x-4 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer px-5 py-3 mb-2">
-                <div className="w-7 h-7 bg-my-blue rounded-full flex justify-center mx-2 items-center">
-                    <Plus className="text-white w-5" />
+            <Link href={'/auth/login'} className="w-full flex justify-start p-1 items-center gap-1 gap-x-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer px-4 py-2 mb-1">
+                <div className="w-5 h-5 bg-my-blue rounded-full flex justify-center mx-1 items-center">
+                    <Plus className="text-white w-3" />
                 </div>
-                <p className="text-lg text-zinc-900 dark:text-zinc-100">افزودن حساب کاربری</p>
+                <p className="text-sm text-zinc-900 dark:text-zinc-100">افزودن حساب کاربری</p>
             </Link>
         </div>
     )

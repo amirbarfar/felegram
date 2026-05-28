@@ -18,14 +18,14 @@ export default function ProfileEditInfoItem({ title, content, icon, setEditTitle
         }
     }
     return (
-        <div onClick={handleSetTitle} className="flex justify-between items-center px-6 py-4 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">
-            <div className="flex items-center gap-6">
-                <span className="stroke-[1.2] w-7 h-7 text-gray-600 dark:text-zinc-400">
+        <div onClick={handleSetTitle} className="flex justify-between items-center px-5 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">
+            <div className="flex items-center gap-4">
+                <span className="stroke-[1.2] w-5 h-5 text-gray-600 dark:text-zinc-400">
                     {icon}
                 </span>
-                <p className="text-lg text-gray-800 dark:text-zinc-100">{title}</p>
+                <p className="text-sm text-gray-800 dark:text-zinc-100">{title}</p>
             </div>
-            <h3 className="text-my-blue text-lg">{content}</h3>
+            <h3 className="text-my-blue text-sm">{content}</h3>
         </div>
     )
 }

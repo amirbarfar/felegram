@@ -1,16 +1,26 @@
-import Image from 'next/image';
-
 interface UserAvatarProps {
     name?: string;
+    image?: string | null;
     size?: number;
     isActive: boolean;
 }
 
-export default function UserAvatar({ name = "", size = 10, isActive }: UserAvatarProps) {
+export default function UserAvatar({ name = "", image, size = 10, isActive }: UserAvatarProps) {
     const px = size * 4;
     const borderClass = isActive ? 'border-2 border-my-blue' : 'border-2 border-transparent';
 
-    if (!name) return null;
+    if (!name && !image) return null;
+
+    if (image) {
+        return (
+            <div
+                className={`shrink-0 rounded-full overflow-hidden ${borderClass}`}
+                style={{ width: px, height: px }}
+            >
+                <img src={image} alt={name} className="object-cover w-full h-full" />
+            </div>
+        );
+    }
 
     const initials = name.charAt(0).toUpperCase();
 

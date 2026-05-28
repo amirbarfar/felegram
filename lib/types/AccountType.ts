@@ -1,4 +1,5 @@
 export interface AccountType {
+    avatar: string;
     id: string;
     phone: string;
     firstname: string | null;

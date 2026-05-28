@@ -52,16 +52,34 @@ export async function POST(req: NextRequest) {
     });
 
     const device = (await headers()).get("user-agent") || "unknown";
-    const userSession = await prisma.session.create({
-        data: { accountId: account.phone, sessionToken: '', deviceIdentifier: device, isValid: true }
+    const token = await signToken({
+        phone: account.phone,
+        userId: account.user.id,
+        sessionId: account.phone
     });
 
-    const token = await signToken({ phone: account.phone, userId: account.user.id, sessionId: userSession.id });
-
-    await prisma.session.update({
-        where: { id: userSession.id },
-        data: { sessionToken: token }
+    const existingSession = await prisma.session.findFirst({
+        where: {
+            accountId: account.phone,
+            deviceIdentifier: device
+        }
     });
+
+    if (existingSession) {
+        await prisma.session.update({
+            where: { id: existingSession.id },
+            data: { sessionToken: token, isValid: true }
+        });
+    } else {
+        await prisma.session.create({
+            data: {
+                accountId: account.phone,
+                sessionToken: token,
+                deviceIdentifier: device,
+                isValid: true
+            }
+        });
+    }
 
     return NextResponse.json({ success: true, message: "ورود موفقیت آمیز بود" });
 }

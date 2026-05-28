@@ -1,7 +1,7 @@
 import { AtSign, Gift, Megaphone, Phone, UserCircle2 } from "lucide-react";
 import { AccountType } from "@/lib/types/AccountType";
 
-const iconClass = "w-7 h-7 text-gray-600 dark:text-zinc-400";
+const iconClass = "w-5 h-5 text-gray-600 dark:text-zinc-400";
 
 export function getBasicInfoItems(data: AccountType) {
     return [

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { switchAccountSchema } from "@/lib/schemas";
-import { SignJWT } from "jose";
 import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -20,25 +20,45 @@ export async function POST(req: NextRequest) {
     });
 
     if (!account) {
-        return NextResponse.json({ error: "اکانت پیدا نشد.", status: 404 });
+        return NextResponse.json({ error: "اکانت پیدا نشد." }, { status: 404 });
+    }
+
+    const lastSession = await prisma.session.findFirst({
+        where: { accountId: phone },
+        orderBy: { createdAt: "desc" }
+    });
+
+    try {
+        if (!lastSession || !lastSession.sessionToken) {
+            throw new Error();
+        }
+
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+        await jwtVerify(lastSession.sessionToken, secret);
+    } catch (error) {
+        await prisma.account.update({
+            where: { phone },
+            data: { isVerified: false }
+        });
+
+        return NextResponse.json({ error: "توکن منقضی شده است." }, { status: 401 });
     }
 
     await prisma.account.updateMany({
-        where: { userId: account.user.id },
+        where: { 
+            userId: account.user.id,
+            NOT: { phone }
+        },
         data: { isActive: false }
     });
 
-    await prisma.account.update({ where: { phone }, data: { isActive: true } });
-
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const token = await new SignJWT({ userId: account.user.id, phone: account.phone })
-        .setProtectedHeader({ alg: 'HS256' })
-        .setExpirationTime("7d")
-        .setIssuedAt()
-        .sign(secret);
+    await prisma.account.update({
+        where: { phone },
+        data: { isActive: true }
+    });
 
     const cookieStore = await cookies();
-    cookieStore.set("token", token, {
+    cookieStore.set("token", lastSession.sessionToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
@@ -46,5 +66,5 @@ export async function POST(req: NextRequest) {
         path: "/",
     });
 
-    return NextResponse.json({ success: "اکانت با موفقیت تغییر کرد.", status: 201 });
+    return NextResponse.json({ success: "اکانت با موفقیت تغییر کرد." }, { status: 200 });
 }

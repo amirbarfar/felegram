@@ -27,6 +27,7 @@ export const profileEditSchema = z.object({
     bio: z.string().max(70).optional(),
     birthday: z.string().optional(),
     channel: z.string().max(100).optional(),
+    image: z.string().url().optional(),
 });
 
 export const switchAccountSchema = z.object({

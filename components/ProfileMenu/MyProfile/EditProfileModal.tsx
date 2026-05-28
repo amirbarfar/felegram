@@ -66,17 +66,17 @@ export default function EditProfileModal({ onClose, title, data, setData, setRef
 
     return (
         <Modal onClose={onClose}>
-            <div className="relative w-full max-w-md bg-white dark:bg-zinc-950 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900 flex justify-between items-center">
-                    <h2 className="text-lg font-bold text-gray-800 dark:text-zinc-100">{fieldKeyToFa[title]}</h2>
+            <div className="relative w-full max-w-xs bg-white dark:bg-zinc-950 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900 flex justify-between items-center">
+                    <h2 className="text-sm font-bold text-gray-800 dark:text-zinc-100">{fieldKeyToFa[title]}</h2>
                 </div>
 
-                <div className="p-6 space-y-6 flex flex-col gap-2">
+                <div className="p-4 space-y-4 flex flex-col gap-2">
                     {formStructure[title].map((field) => (
-                        <div key={field.id} className="flex w-full justify-start flex-col text-xl group items-start mt-2">
+                        <div key={field.id} className="flex w-full justify-start flex-col text-base group items-start mt-1">
                             <label
                                 htmlFor={field.id}
-                                className="group-focus-within:text-my-blue mb-2 opacity-70 transition-colors cursor-pointer text-gray-600 dark:text-zinc-400"
+                                className="group-focus-within:text-my-blue mb-1.5 opacity-70 transition-colors cursor-pointer text-gray-600 dark:text-zinc-400"
                             >
                                 {field.label}
                             </label>
@@ -89,15 +89,15 @@ export default function EditProfileModal({ onClose, title, data, setData, setRef
                                 value={formData[field.id] || ""}
                                 onChange={handleChange}
                                 placeholder={field.example}
-                                className={`peer ${field.id === "firstname" || field.id === "lastname" ? 'text-right' : 'text-left'} text-lg border-b pb-1 focus:border-b-my-blue border-b-gray-300 dark:border-zinc-700 w-full outline-0 transition-colors bg-transparent text-gray-900 dark:text-zinc-100 placeholder-gray-400 dark:placeholder-zinc-500`}
+                                className={`peer ${field.id === "firstname" || field.id === "lastname" ? 'text-right' : 'text-left'} text-sm border-b pb-1 focus:border-b-my-blue border-b-gray-300 dark:border-zinc-700 w-full outline-0 transition-colors bg-transparent text-gray-900 dark:text-zinc-100 placeholder-gray-400 dark:placeholder-zinc-500`}
                             />
                         </div>
                     ))}
                 </div>
 
-                <div className="flex justify-end px-6 pb-6 gap-3">
-                    <button onClick={handleSave} className="px-5 py-2.5 text-lg cursor-pointer rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-my-blue dark:text-zinc-100 transition-colors font-medium">تایید</button>
-                    <button onClick={onClose} className="px-5 py-2.5 text-lg cursor-pointer rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 transition-colors font-medium">انصراف</button>
+                <div className="flex justify-end px-4 pb-4 gap-2">
+                    <button onClick={handleSave} className="px-4 py-2 text-sm cursor-pointer rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-my-blue dark:text-zinc-100 transition-colors font-medium">تایید</button>
+                    <button onClick={onClose} className="px-4 py-2 text-sm cursor-pointer rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 transition-colors font-medium">انصراف</button>
                 </div>
             </div>
         </Modal>

@@ -17,15 +17,15 @@ export default function Header({ isOpen, setIsOpen }: HeaderProps) {
 
     return (
         <div>
-            <div className="p-3 px-5">
-                <UserAvatar name={data.firstname || ''} size={16} isActive={false}/>
+            <div className="p-2 px-4">
+                <UserAvatar name={data.firstname || ''} image={data.image} size={20} isActive={false}/>
             </div>
-            <div onClick={() => setIsOpen(prev => !prev)} className="flex cursor-pointer justify-between items-center mt-2 pb-4 px-5 pr-7 border-b">
+            <div onClick={() => setIsOpen(prev => !prev)} className="flex cursor-pointer justify-between items-center mt-1 pb-3 px-4 pr-5 border-b">
                 <div>
-                    <h1 className="text-xl">{data.firstname} {data.lastname}</h1>
-                    <p className="text-my-blue cursor-pointer">اضافه کردن وضعیت</p>
+                    <h1 className="text-base">{data.firstname} {data.lastname}</h1>
+                    <p className="text-sm text-my-blue cursor-pointer">اضافه کردن وضعیت</p>
                 </div>
-                <ChevronDown className={`w-7 h-7 opacity-70 ${isOpen ? 'rotate-180' : 'rotate-0'} duration-250 transition-transform`} />
+                <ChevronDown className={`w-5 h-5 opacity-70 ${isOpen ? 'rotate-180' : 'rotate-0'} duration-250 transition-transform`} />
             </div>
         </div>
     )

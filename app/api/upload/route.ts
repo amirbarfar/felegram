@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
         })
     }
     const random = Math.floor(Math.random() * 1000000)
-    const uniqeName = `${Date.now()}-${file.name}-${random}`
+    const ext = file.name.split('.').pop()
+    const uniqeName = `${Date.now()}-${random}.${ext}`
 
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer);
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
         Bucket: process.env.MINIO_BUCKET_NAME,
         Key: uniqeName,
         ContentType: file.type,
-        Body: buffer
+        Body: buffer,
     }))
 
     const endpoint = process.env.MINIO_ENDPOINT?.startsWith('http')
@@ -31,8 +32,8 @@ export async function POST(req: NextRequest) {
     const publicLink = `${endpoint}/${process.env.MINIO_BUCKET_NAME}/${uniqeName}`;
 
     return NextResponse.json({
-        success : true,
-        status : 201,
-        data : publicLink
+        success: true,
+        status: 201,
+        data: publicLink
     })
 }
